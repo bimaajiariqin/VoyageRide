@@ -48,7 +48,7 @@
         }
         
         .nav-links a:hover {
-            background-color: #e0f7fa;
+
             color: #f5f5f5;
         }
         
