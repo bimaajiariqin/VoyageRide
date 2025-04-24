@@ -1,7 +1,7 @@
 
 @extends('layout')
 
-@section('title', 'Home - VoyageRide Bus Pariwisata')
+@section('title', 'Home')
 
 @section('content')
 <!-- Search Container -->
@@ -9,22 +9,56 @@
     <form action="{{ route('search') }}" method="GET" class="search-bar">
         <div class="search-input">
             <label for="dari">Dari</label>
-            <input type="text" id="dari" name="dari" placeholder="Kota Asal" required>
+            <input list="dari-list" name="dari" id="dari" placeholder="Kota Asal" required>
         </div>
+
+        <!-- Tombol swap -->
+        <div class="swap-button" style="display: flex; align-items: center; padding: 0 10px;">
+            <button type="button" onclick="swapLocations()" title="Tukar Kota"
+                style="background: #eee; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer;">
+                ⇄
+            </button>
+        </div>
+
         <div class="search-input">
             <label for="ke">Ke</label>
-            <input type="text" id="ke" name="ke" placeholder="Kota Tujuan" required>
+            <input list="ke-list" name="ke" id="ke" placeholder="Kota Tujuan" required>
         </div>
+
+        <!-- Datalists -->
+        <datalist id="dari-list">
+            @foreach($cities as $city)
+                <option value="{{ $city->name }}">
+            @endforeach
+        </datalist>
+
+        <datalist id="ke-list">
+            @foreach($cities as $city)
+                <option value="{{ $city->name }}">
+            @endforeach
+        </datalist>
+
         <div class="date-input">
             <label for="tanggal_pergi">Tanggal Pergi</label>
-            <input type="date" id="tanggal_pergi" name="tanggal_pergi" required>
+            <input type="date" name="tanggal_pergi" id="tanggal_pergi" required>
         </div>
+
         <button type="submit" class="search-button">
             <span class="material-icons">search</span>
             Cari
         </button>
     </form>
 </div>
+
+<script>
+    function swapLocations() {
+        const dari = document.getElementById('dari');
+        const ke = document.getElementById('ke');
+        [dari.value, ke.value] = [ke.value, dari.value];
+    }
+</script>
+
+
 
 <!-- Steps Section -->
 <section class="steps-section">

@@ -42,10 +42,14 @@
 
         <div class="main-content">
             <div class="results-header">{{ $total_buses }} Bus Ditemukan</div>
-            @foreach($buses as $bus)
+            @php
+                $sortedBuses = $buses->sortBy('departure_time');
+            @endphp
+            @foreach($sortedBuses as $bus)
                 @php
-                    $now = now();
-                    $is_expired = $bus->departure_time < $now;
+                    $now = strtotime(now());
+                    $departureTime = strtotime($bus->departure_time) - (5 * 60);
+                    $is_expired = $now >= $departureTime;
                 @endphp
                 <div class="bus-card {{ $is_expired ? 'expired' : '' }}">
                     <div class="bus-logo">
@@ -58,10 +62,10 @@
                             <div class="bus-number">No Lambung: {{ $bus->bus_number }} <span style="color: gray;">({{ $bus->model }})</span></div>
                             <div class="bus-time">
                                 <i class="material-icons">departure_board</i>
-                                <strong>Berangkat:</strong> <span class="time">{{ $bus->departure_time->format('H:i') }}</span>
+                                <strong>Berangkat:</strong> <span class="time">{{ date('H:i', strtotime($bus->departure_time)) }}</span>
                                 <span class="time-separator">•</span>
                                 <i class="material-icons">schedule</i>
-                                <strong>Tiba:</strong> <span class="time">{{ $bus->arrival_time->format('H:i') }}</span>
+                                <strong>Tiba:</strong> <span class="time">{{ date('H:i', strtotime($bus->arrival_time)) }}</span>
                             </div>
                             <div class="bus-features">
                                 @if($bus->has_luggage)<i class="material-icons">luggage</i>@endif
@@ -92,7 +96,7 @@
     <style>
         .expired {
             background-color: #ffdddd;
-            opacity: 0.6;
+            opacity: 0.5;
         }
         .disabled {
             background-color: #ccc;

@@ -1,0 +1,18 @@
+CREATE TABLE booked (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    bus_id BIGINT UNSIGNED NOT NULL,
+    origin_id INT UNSIGNED NOT NULL,
+    destination_id INT UNSIGNED NOT NULL,
+    passenger_name VARCHAR(255) NOT NULL,
+    passenger_email VARCHAR(255) NOT NULL,
+    passenger_phone VARCHAR(50) NOT NULL,
+    seat_number INT NOT NULL,
+    booking_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total_price DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+
+    FOREIGN KEY (bus_id) REFERENCES buses(id) ON DELETE CASCADE,
+    FOREIGN KEY (origin_id) REFERENCES cities(id) ON DELETE CASCADE,
+    FOREIGN KEY (destination_id) REFERENCES cities(id) ON DELETE CASCADE
+);

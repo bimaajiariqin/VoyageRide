@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('bus_number');
             $table->string('model');
             $table->string('logo_url')->nullable();
-            $table->string('origin');
-            $table->string('destination');
+        
+            // Diubah dari string ke foreign key
+            $table->unsignedBigInteger('origin_id');
+            $table->unsignedBigInteger('destination_id');
+        
             $table->dateTime('departure_time');
             $table->dateTime('arrival_time');
             $table->decimal('price', 10, 2);
@@ -31,8 +34,12 @@ return new class extends Migration
             $table->boolean('has_wifi')->default(false);
             $table->boolean('has_usb')->default(false);
             $table->boolean('has_cctv')->default(false);
-            $table->timestamps();
+        
+            // Tambahkan foreign key constraint
+            $table->foreign('origin_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->foreign('destination_id')->references('id')->on('cities')->onDelete('cascade');
         });
+        
     }
 
     /**

@@ -15,7 +15,7 @@ class LoginController extends Controller
         return view('login');
     }
 
-    // Proses login
+    // Proses login dengan pengecekan role
     public function login(Request $request)
     {
         $request->validate([
@@ -24,7 +24,15 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('landing');
+            $user = Auth::user();
+            
+            if ($user->role == 'Admin') {
+                return redirect()->route('/admin/landingadmin');
+            } elseif ($user->role == 'AdminUtama') {
+                return redirect()->route('/admin/landingadmin');
+            }  elseif ($user->role == 'User') {
+                return redirect()->route('landing');
+            }
         }
 
         return back()->with('error', 'Email atau password salah.');
@@ -41,12 +49,14 @@ class LoginController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
+            'role' => 'required|in:Admin,User' // Pastikan role dikirim saat registrasi
         ]);
 
         User::create([
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'role' => $request->role // Simpan role user
         ]);
 
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
@@ -59,4 +69,3 @@ class LoginController extends Controller
         return redirect()->route('login');
     }
 }
-

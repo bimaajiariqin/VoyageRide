@@ -15,26 +15,24 @@ class Bus extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'bus_type',
-        'seat_capacity',
-        'bus_number',
-        'model',
-        'logo_url',
-        'origin',
-        'destination',
-        'departure_time',
-        'arrival_time',
-        'price',
-        'has_luggage',
-        'has_light',
-        'has_ac',
-        'has_drink',
-        'has_wifi',
-        'has_usb',
-        'has_cctv',
+
+
+     
+     protected $fillable = [
+        'name', 'bus_type', 'seat_capacity', 'bus_number', 'model', 'logo_url',
+        'origin_id', 'destination_id', 'departure_time', 'arrival_time', 'price',
+        'has_luggage', 'has_light', 'has_ac', 'has_drink', 'has_wifi', 'has_usb', 'has_cctv'
     ];
+
+    public function origin()
+    {
+        return $this->belongsTo(City::class, 'origin_id');
+    }
+
+    public function destination()
+    {
+        return $this->belongsTo(City::class, 'destination_id');
+    }
 
     /**
      * The attributes that should be cast.

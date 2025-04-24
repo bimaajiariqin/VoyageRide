@@ -25,20 +25,23 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f2f7ff;
+    background-color: #f6f8fc;
+    margin: 0;
+    padding: 0;
 }
 
 .profile-container {
     max-width: 480px;
-    margin: 50px auto;
+    margin: 60px auto;
     text-align: center;
+    padding: 0 15px;
 }
 
 .profile-title {
-    color: #3a4f7a;
-    font-size: 28px;
+    color: #2c3e50;
+    font-size: 26px;
     font-weight: 600;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     position: relative;
 }
 
@@ -48,56 +51,56 @@ body {
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
+    width: 50px;
     height: 3px;
-    background: linear-gradient(to right, #3a4f7a, #7091da);
-    border-radius: 3px;
+    background: #6c8ed3;
+    border-radius: 2px;
 }
 
 .profile-card {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
 }
 
 .profile-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 .avatar-container {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .avatar {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #3a4f7a, #7091da);
-    color: white;
-    font-size: 36px;
+    width: 75px;
+    height: 75px;
+    background: linear-gradient(135deg, #4a6cb3, #6c8ed3);
+    color: #fff;
+    font-size: 34px;
     font-weight: 500;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 12px rgba(76, 103, 164, 0.3);
     text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(58, 79, 122, 0.3);
 }
 
 .profile-info {
-    margin-bottom: 25px;
     text-align: left;
+    margin-bottom: 20px;
 }
 
 .info-item {
-    padding: 12px 0;
-    border-bottom: 1px solid #eaedf5;
-    margin: 0;
-    color: #4a5568;
     display: flex;
     align-items: center;
+    color: #444;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e9f2;
+    font-size: 15px;
 }
 
 .info-item:last-child {
@@ -105,7 +108,7 @@ body {
 }
 
 .info-item i {
-    color: #7091da;
+    color: #6c8ed3;
     margin-right: 10px;
     font-size: 16px;
     width: 20px;
@@ -114,8 +117,8 @@ body {
 
 .info-item strong {
     font-weight: 500;
-    margin-right: 5px;
-    color: #3a4f7a;
+    margin-right: 6px;
+    color: #2c3e50;
     flex: 0 0 60px;
 }
 
@@ -124,18 +127,18 @@ body {
 }
 
 .logout-btn {
-    background: linear-gradient(to right, #e74c3c, #c0392b);
+    background: linear-gradient(to right, #d9534f, #c9302c);
     color: white;
     border: none;
     padding: 12px 25px;
     margin-top: 10px;
     cursor: pointer;
     border-radius: 30px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    box-shadow: 0 4px 15px rgba(217, 83, 79, 0.3);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -146,14 +149,14 @@ body {
 }
 
 .logout-btn:hover {
-    background: linear-gradient(to right, #c0392b, #e74c3c);
+    background: linear-gradient(to right, #c9302c, #d9534f);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+    box-shadow: 0 6px 20px rgba(217, 83, 79, 0.4);
 }
 
 .logout-btn:active {
     transform: translateY(1px);
-    box-shadow: 0 2px 10px rgba(231, 76, 60, 0.4);
+    box-shadow: 0 2px 8px rgba(217, 83, 79, 0.4);
 }
 
 @media (max-width: 500px) {
@@ -161,19 +164,20 @@ body {
         max-width: 95%;
         margin: 30px auto;
     }
-    
+
     .profile-card {
         padding: 20px;
     }
-    
+
     .avatar {
-        width: 70px;
-        height: 70px;
+        width: 65px;
+        height: 65px;
         font-size: 28px;
     }
-    
+
     .profile-title {
-        font-size: 24px;
+        font-size: 22px;
     }
 }
+
 </style>

@@ -57,68 +57,98 @@
         }
         
         /* Search Bar Section */
-        .search-container {
+/* Search Bar Section */
+.search-container {
     background-color: #006064;
-    padding: 15px 0 30px;
+    padding: 30px 0;
 }
 
 .search-bar {
-    max-width: 550px;
-    margin: 10px auto; /* Tambahkan margin atas */
-    padding: 10px; /* Beri padding agar tidak terlalu mepet */
+    max-width: 800px;
+    margin: 0 auto;
     display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 15px;
+    padding: 20px;
     background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
-
 
 .search-input,
 .date-input {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-right: 1px solid #ddd;
-    text-align: center;
-    font-size: 14px;
-    color: #333;
+    flex: 1 1 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-input label,
+.date-input label {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 6px;
+    font-weight: 500;
 }
 
 .search-input input,
 .date-input input {
-    width: 100%;
-    padding: 5px 0;
-    border: none;
-    background: transparent;
-    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     font-size: 14px;
-    outline: none;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.date-input label {
-    display: block;
-    margin-bottom: 3px;
-    font-size: 12px;
-    color: #777;
+.search-input input:focus,
+.date-input input:focus {
+    outline: none;
+    border-color: #00A5B5;
+    box-shadow: 0 0 0 3px rgba(0, 165, 181, 0.2);
+}
+
+/* Tombol swap berbentuk lingkaran dan tanpa animasi */
+.swap-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 22px;
+}
+
+.swap-button button {
+    width: 40px;
+    height: 40px;
+    background: #eee;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.swap-button button:hover {
+    background: #ddd;
 }
 
 .search-button {
+    background-color: #00A5B5;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 12px 18px;
-    background-color: #00A5B5;
-    color: #fff;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    gap: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .search-button:hover {
     background-color: #008A97;
+    transform: translateY(-2px);
 }
+
+
 
 
         

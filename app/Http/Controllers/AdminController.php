@@ -6,16 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class RegisterController extends Controller
+class AdminController extends Controller
 {
-    // Menampilkan halaman registrasi
-    public function showRegister()
+    // Menampilkan form tambah admin
+    public function showAddAdmin()
     {
-        return view('register');
+        return view('/admin/add-admin');
     }
 
-    // Menangani registrasi
-    public function register(Request $request)
+    public function index()
+{
+    return view('/admin/landingadmin');
+}
+
+    // Menyimpan Admin baru
+    public function storeAdmin(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
@@ -27,9 +32,9 @@ class RegisterController extends Controller
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'User' // Set default role ke "User"
+            'role' => 'Admin' // Pastikan role selalu Admin
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('/admin/landingadmin')->with('success', 'Admin baru berhasil ditambahkan.');
     }
 }
