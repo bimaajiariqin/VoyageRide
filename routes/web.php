@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\PaymentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -76,4 +79,15 @@ Route::get('/bus/details/{id}', [BusController::class, 'details'])->name('bus.de
 Route::get('/booking', [BusController::class, 'booking'])->name('booking');
 
 Route::post('/booked', [BookingController::class, 'store'])->name('booked');
-Route::post('/process-booking', [BookingController::class, 'store'])->name('processBooking');
+Route::post('/process-booking', [BookingController::class, 'processBooking'])->name('processBooking');
+
+Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
+
+Route::get('/landing', function () {
+    return view('landing');
+});
+
+
+
+Route::get('landing', [LandingController::class, 'index'])->name('landing');
+

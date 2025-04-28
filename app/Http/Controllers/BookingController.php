@@ -29,9 +29,12 @@ class BookingController extends Controller
 public function processBooking(Request $request)
 {
     $passengers = $request->input('passengers');
-    // Simpan ke database atau lanjutkan ke pembayaran
+    $price = $request->input('price'); // Harga per kursi
 
-    return view('booking_confirmation', compact('passengers'));
+    $totalPrice = count($passengers) * $price;
+
+    return view('booking_confirmation', compact('passengers', 'totalPrice'));
 }
+
 
 }

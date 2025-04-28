@@ -11,7 +11,14 @@
         
         <div class="booking-content">
             <div class="journey-summary">
-                <p><strong>Bus:</strong> {{ $busName }} | <strong>Rute:</strong> {{ $origin }} ke {{ $destination }} | <strong>Keberangkatan:</strong> {{ \Carbon\Carbon::parse($departureTime)->format('d M Y, H:i') }}</p>
+            @php
+                $originData = json_decode($origin);
+                $destinationData = json_decode($destination);
+            @endphp
+
+            <p><strong>Bus:</strong> {{ $busName }} |
+            <strong>Rute:</strong> {{ $originData->name }} ke {{ $destinationData->name }} |
+            <strong>Keberangkatan:</strong> {{ \Carbon\Carbon::parse($departureTime)->format('d M Y, H:i') }}</p>
             </div>
 
             <form action="{{ route('processBooking') }}" method="POST">
@@ -28,13 +35,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Nomor Telepon:</label>
-                            <input type="text" name="passengers[{{ $index }}][phone]" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Email:</label>
-                            <input type="email" name="passengers[{{ $index }}][email]" required>
+                            <label>NIK:</label>
+                            <input type="text" name="passengers[{{ $index }}][NIK]" required>
                         </div>
                     </div>
                 @endforeach

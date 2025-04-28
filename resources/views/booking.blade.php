@@ -15,7 +15,7 @@
                 </div>
                 
                 <div style="margin-bottom: 20px;">
-                    <label for="email" style="display: block; margin-bottom: 8px; font-weight: bold;">Email</label>
+                    <label for="NIK" style="display: block; margin-bottom: 8px; font-weight: bold;">NIK</label>
                     <input type="email" id="email" name="email" placeholder="Masukkan email yang terdaftar" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;">
                 </div>
                 

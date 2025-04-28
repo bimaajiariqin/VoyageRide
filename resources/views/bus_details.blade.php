@@ -79,11 +79,11 @@
                         <table class="info-table">
                             <tr>
                                 <td>Dari</td>
-                                <td class="value">{{ $bus->origin }}</td>
+                                <td class="value">{{ $bus->origin->name }}</td>
                             </tr>
                             <tr>
                                 <td>Ke</td>
-                                <td class="value">{{ $bus->destination }}</td>
+                                <td class="value">{{ $bus->destination->name }}</td>
                             </tr>
                             <tr>
                                 <td>Tanggal & Waktu Berangkat</td>

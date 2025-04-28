@@ -388,7 +388,7 @@
 
 .footer {
     background-color: #005766;
-    color: #fff;
+    color: #f5f5f5;
     padding: 40px 20px;
     display: flex;
     justify-content: center;
