@@ -2,6 +2,7 @@
 
     namespace App\Http\Controllers;
 
+    use Http;
     use Illuminate\Http\Request;
     use App\Models\Bus;
     use App\Models\City;
@@ -15,7 +16,8 @@
          */
         public function index()
         {
-            $cities = City::all();
+            // $cities = City::all();
+            $cities = Http::get('http://127.0.0.1:8000/api/Bus')->json();
             return view('landing', compact('cities'));
         }
 

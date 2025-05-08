@@ -14,6 +14,7 @@ class ApiBusController extends Controller
     {
         $bus = Bus::all();
         return response()->json($bus);
+
     }
 
     /**
@@ -87,7 +88,7 @@ class ApiBusController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
@@ -95,6 +96,9 @@ class ApiBusController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $bus = Bus::findOrFail($id);
+            $bus->delete();
+
+            return redirect()->back()->with('success', 'Bus berhasil dihapus.');
     }
 }

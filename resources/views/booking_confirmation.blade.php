@@ -89,7 +89,7 @@
 
     @php
       $ticketPrice = $totalPrice;
-      $tax = $ticketPrice * 0.05;
+      $tax = $ticketPrice * 0.04;
       $totalPayment = $ticketPrice + $tax;
     @endphp
 
@@ -98,7 +98,7 @@
       <strong>Rp {{ number_format($ticketPrice, 0, ',', '.') }}</strong>
     </div>
     <div class="d-flex justify-content-between mt-2">
-      <span>Pajak (5%)</span>
+      <span>Pajak (4%)</span>
       <strong>Rp {{ number_format($tax, 0, ',', '.') }}</strong>
     </div>
     <hr>
