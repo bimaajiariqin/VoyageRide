@@ -722,9 +722,7 @@
         <div class="footer-content">
             <img src="{{ asset('Logo VoyageRide.png') }}" alt="VoyageRide Logo" class="footer-logo">
             <p class="footer-text">
-            VoyageRide adalah jasa pemesanan bis AKAP secara online. 
-            Telah dipercaya lebih dari 25 juta pelanggan secara global. 
-            VoyageRide menawarkan pemesanan bis melalui website rute-rute utama di Indonesia.
+            VoyageRide adalah layanan pemesanan bus antarkota antarprovinsi (AKAP) secara online yang dirancang untuk memberikan kemudahan, kenyamanan, dan efisiensi bagi para pelanggan dalam merencanakan perjalanan darat. Melalui website resminya, VoyageRide memungkinkan pengguna untuk mencari, memilih, dan memesan tiket bus ke berbagai rute utama di seluruh Indonesia. Dengan sistem yang praktis dan antarmuka yang ramah pengguna, VoyageRide menjadi solusi modern untuk kebutuhan transportasi darat yang aman dan terpercaya.
         </p>
             <div class="social-links">
                 <!-- Twitter Icon -->
