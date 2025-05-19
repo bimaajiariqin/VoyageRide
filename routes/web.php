@@ -23,71 +23,65 @@ use App\Http\Controllers\PaymentController;
 Route::get('/', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('logincontroller');
 
-Route::get('/register', [LoginController::class, 'showRegister'])->name('register');
-Route::post('/register', [LoginController::class, 'register']);
+Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 
+// Admin routes
 Route::get('/admin/landingadmin', [AdminController::class, 'index'])->name('/admin/landingadmin');
-
-// Tambah Admin
 Route::get('/admin/add-admin', [AdminController::class, 'showAddAdmin'])->name('/admin/admin.add');
 Route::post('/admin/add-admin', [AdminController::class, 'storeAdmin'])->name('admin.store');
-
-//Tambah Bus
 Route::get('/admin/bus.add', [BusController::class, 'create'])->name('/admin/bus.add');
 Route::post('/admin/bus.store', [BusController::class, 'store'])->name('bus.store');
 Route::post('/bus/store', [BusController::class, 'store'])->name('bus.store');
-
-//Delete Bus
 Route::delete('/admin/bus/{id}', [BusController::class, 'destroy'])->name('bus.delete');
-
-
-//Tambah Kota
 Route::get('/admin/add_cities', [CityController::class, 'create'])->name('/admin/add_cities');
 Route::get('/cities/create', [CityController::class, 'create'])->name('cities.create');
 Route::post('/cities', [CityController::class, 'store'])->name('cities.store');
-
 Route::get('/admin/bus-table', [BusController::class, 'list'])->name('/admin/bus-table');
 
-
+// Routes after login
 Route::middleware(['auth'])->group(function () {
     Route::get('/profil', [ProfileController::class, 'index'])->name('profil');
-
-
-
+    
     Route::post('/logout', function () {
         Auth::logout();
         return redirect('/');
     })->name('logout');
+    
+    // Landing & Bus routes
+    Route::get('/landing', [BusController::class, 'index'])->name('landing');
+    Route::get('/search', [BusController::class, 'search'])->name('search');
+    Route::get('/bus/details/{id}', [BusController::class, 'details'])->name('bus.details');
+    
+    // IMPORTANT: Booking Process Routes
+    // Step 1: Initial booking with seat selection
+    Route::post('/booked', [BookingController::class, 'booked'])->name('booked');
+    
+    // Step 2: Process passenger data and show payment
+    Route::post('/process-booking', [BookingController::class, 'processBooking'])->name('processBooking');
+    Route::get('/process-booking', [BookingController::class, 'handleDirectAccess'])->name('processBooking.direct');
+    
+    // Step 3: Process payment
+    Route::post('/payment/process', [BookingController::class, 'processPayment'])->name('payment.process');
+    
+    // Booking history and management
+    Route::get('/booking/history', [BookingController::class, 'bookingHistory'])->name('booking.history');
+    Route::get('/booking/{id}/detail', [BookingController::class, 'bookingDetail'])->name('booking.detail');
+    Route::get('/booking/{id}/ticket', [BookingController::class, 'downloadTicket'])->name('booking.ticket');
+    Route::get('/booking/{id}/cancel', [BookingController::class, 'cancelBooking'])->name('booking.cancel');
 });
 
-// Halaman utama setelah login
-Route::get('/landing', function () {
-    return view('landing');
-})->middleware('auth')->name('landing');
-
-//Halaman Register
-Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
-
-
-Route::get('/search', [BusController::class, 'search'])->name('search');
-
-
-Route::get('/landing', [BusController::class, 'index'])->name('landing');
-Route::get('/search', [BusController::class, 'search'])->name('search');
-Route::get('/bus/details/{id}', [BusController::class, 'details'])->name('bus.details');
-Route::get('/booking', [BusController::class, 'booking'])->name('booking');
-
-Route::post('/booked', [BookingController::class, 'store'])->name('booked');
-Route::post('/process-booking', [BookingController::class, 'processBooking'])->name('processBooking');
-
-Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
-
-Route::get('/landing', function () {
-    return view('landing');
+// Admin booking management routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/bookings', [BookingController::class, 'adminBookingList'])->name('admin.bookings');
+    Route::get('/bookings/{id}', [BookingController::class, 'adminBookingDetail'])->name('admin.booking.detail');
+    Route::post('/bookings/{id}/status', [BookingController::class, 'adminUpdateBookingStatus'])->name('admin.booking.status');
 });
 
+Route::get('/booking', function() {
+    return redirect()->route('booking.history');
+})->name('booking');
 
+Route::post('/cancel-booking/{id}', [BookingController::class, 'cancelBooking']);
 
-Route::get('landing', [LandingController::class, 'index'])->name('landing');
 

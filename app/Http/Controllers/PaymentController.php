@@ -11,4 +11,6 @@ class PaymentController extends Controller
         // Simulasi pembayaran sukses
         return view('payment_success');
     }
+
+    
 }

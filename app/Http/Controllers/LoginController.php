@@ -39,28 +39,10 @@ class LoginController extends Controller
     }
 
     // Menampilkan halaman registrasi
-    public function showRegister()
-    {
-        return view('auth.register');
-    }
+    
 
     // Proses registrasi
-    public function register(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'role' => 'required|in:Admin,User' // Pastikan role dikirim saat registrasi
-        ]);
-
-        User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role // Simpan role user
-        ]);
-
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
-    }
+    
 
     // Logout
     public function logout()

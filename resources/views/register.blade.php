@@ -89,7 +89,7 @@
             color: #fdf5e6;
             cursor: pointer;
             text-decoration: none; /* Opsional: menghilangkan garis bawah */
-}
+        }
         
     </style>
 </head>
@@ -111,9 +111,10 @@
                 <input type="text" name="nama" placeholder="Nama" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" required>
+                <input type="hidden" name="role" value="User">
                 <button type="submit">Register</button>
             </form>
-            <a href="{{ route('login') }}" class="login-link">Login</a>
+            <a href="{{ route('login') }}" class="login-link">Have account? Login</a>
         </div>
     </div>
 </body>

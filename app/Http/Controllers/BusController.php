@@ -16,10 +16,10 @@
          */
         public function index()
         {
-            // $cities = City::all();
-            $cities = Http::get('http://127.0.0.1:8000/api/Bus')->json();
+            $cities = City::all(); // langsung ambil dari model
             return view('landing', compact('cities'));
         }
+
 
 
         public function list() {
@@ -122,10 +122,24 @@
          */
         public function details($id)
         {
+            // Cari bus berdasarkan ID
             $bus = Bus::findOrFail($id);
-            return view('bus_details', ['bus' => $bus]);
+            
+            // Ambil semua nomor kursi yang sudah dipesan untuk bus ini
+            $reservedSeats = \App\Models\Passenger::whereHas('booking', function($query) use ($id) {
+                $query->where('bus_id', $id)
+                    ->whereIn('status', ['confirmed', 'pending']); // Pertimbangkan booking yang confirmed dan pending
+            })->pluck('seat_number')->toArray();
+            
+            // Tampilkan view dengan data bus dan kursi yang sudah dipesan
+            return view('bus_details', [
+                'bus' => $bus,
+                'reservedSeats' => $reservedSeats
+            ]);
         }
 
+
+        
         /**
          * Show booking page
          */

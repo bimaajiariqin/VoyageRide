@@ -111,7 +111,7 @@ button {
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit">Login</button>
             </form>
-            <p class="register-link"><a href="{{ route('register') }}">Register</a></p>
+            <p class="register-link"><a href="{{ route('register') }}">Already have account? Register</a></p>
         </div>
     </div>
 </body>

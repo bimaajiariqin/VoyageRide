@@ -1,18 +1,42 @@
-CREATE TABLE booked (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    bus_id BIGINT UNSIGNED NOT NULL,
-    origin_id INT UNSIGNED NOT NULL,
-    destination_id INT UNSIGNED NOT NULL,
-    passenger_name VARCHAR(255) NOT NULL,
-    passenger_email VARCHAR(255) NOT NULL,
-    passenger_phone VARCHAR(50) NOT NULL,
-    seat_number INT NOT NULL,
-    booking_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total_price DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP NULL DEFAULT NULL,
-    updated_at TIMESTAMP NULL DEFAULT NULL,
+@extends('layout')
 
-    FOREIGN KEY (bus_id) REFERENCES buses(id) ON DELETE CASCADE,
-    FOREIGN KEY (origin_id) REFERENCES cities(id) ON DELETE CASCADE,
-    FOREIGN KEY (destination_id) REFERENCES cities(id) ON DELETE CASCADE
-);
+@section('title', 'Riwayat Pemesanan - VoyageRide')
+
+@section('content')
+<div class="container" style="padding-top: 30px;">
+    <h2 style="margin-bottom: 30px; color: #006064;">Riwayat Pemesanan Anda</h2>
+
+    @if($bookings->isEmpty())
+        <div style="background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <p>Anda belum memiliki riwayat pemesanan.</p>
+        </div>
+    @else
+        @foreach($bookings as $booking)
+            <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                <h4 style="color: #006064;">Kode Booking: {{ $booking->booking_number }}</h4>
+                <p><strong>Bus:</strong> {{ $booking->bus->name }}</p>
+                <p><strong>Asal - Tujuan:</strong> {{ $booking->bus->origin }} → {{ $booking->bus->destination }}</p>
+                <p><strong>Keberangkatan:</strong> {{ \Carbon\Carbon::parse($booking->bus->departure_time)->format('d M Y H:i') }}</p>
+                <p><strong>Jumlah Penumpang:</strong> {{ $booking->total_seats }}</p>
+                <p><strong>Total Bayar:</strong> Rp{{ number_format($booking->grand_total, 0, ',', '.') }}</p>
+                <p><strong>Status:</strong> 
+                    <span style="color:
+                        @if($booking->status === 'confirmed') green
+                        @elseif($booking->status === 'pending') orange
+                        @else red @endif;
+                        font-weight: bold;">
+                        {{ ucfirst($booking->status) }}
+                    </span>
+                </p>
+
+                <div style="margin-top: 10px;">
+                    <a href="{{ route('booking.detail', $booking->id) }}" style="margin-right: 10px; color: #006064; text-decoration: underline;">Lihat Detail</a>
+                    @if($booking->status === 'confirmed')
+                        <a href="{{ route('booking.ticket', $booking->id) }}" style="color: #006064; text-decoration: underline;">Unduh E-Ticket</a>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+    @endif
+</div>
+@endsection

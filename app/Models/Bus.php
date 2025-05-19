@@ -34,6 +34,11 @@ class Bus extends Model
         return $this->belongsTo(City::class, 'destination_id');
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     /**
      * The attributes that should be cast.
      *

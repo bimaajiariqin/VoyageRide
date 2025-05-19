@@ -1,9 +1,9 @@
-    @extends('layout')
+@extends('layout')
 
-    @section('title', $bus->name . ' - Detail Bus - VoyageRide')
+@section('title', $bus->name . ' - Detail Bus - VoyageRide')
 
     @section('content')
-    <div class="main-content">
+<div class="main-content">
         <div class="bus-detail-card">
             <div class="bus-header">
                 <h2>{{ $bus->name }} - {{ $bus->bus_type }}</h2>
@@ -34,28 +34,28 @@
                         <div class="seat-layout">
                             <h3 class="section-title">Denah Kursi</h3>
                             <div class="seat-map-container">
-                                <div class="seat-map">
-                                    <!-- Steering wheel icon -->
-                                    <div class="steering-wheel">
-                                        <i class="fa-solid fa-steering-wheel"></i>
-                                    </div>
+                            <div class="seat-map">
+                            <!-- Ikon kemudi -->
+                            <div class="steering-wheel">
+                                <i class="fa-solid fa-steering-wheel"></i>
+                            </div>
 
-                                    <!-- Seats -->
-                                    @php
-                                        // This would typically come from your database
-                                        $reservedSeats = isset($reservedSeats) ? $reservedSeats : [5, 8, 12, 15, 20];
-                                    @endphp
+                            <!-- Kursi -->
+                            @php
+                                // Gunakan data kursi yang sudah dipesan dari controller, atau gunakan array kosong jika tidak tersedia
+                                $reservedSeats = $reservedSeats ?? [];
+                            @endphp
 
-                                    @for ($i = 1; $i <= $bus->seat_capacity; $i++)
-                                        @if ($i % 4 == 3)
-                                            <div class="aisle"></div> <!-- Center aisle -->
-                                        @endif
-                                        <div class="seat {{ in_array($i, $reservedSeats) ? 'reserved' : 'available' }}" 
-                                            data-seat-number="{{ $i }}">
-                                            {{ $i }}
-                                        </div>
-                                    @endfor
+                            @for ($i = 1; $i <= $bus->seat_capacity; $i++)
+                                @if ($i % 4 == 3)
+                                    <div class="aisle"></div> <!-- Lorong tengah -->
+                                @endif
+                                <div class="seat {{ in_array($i, $reservedSeats) ? 'reserved' : 'available' }}" 
+                                    data-seat-number="{{ $i }}">
+                                    {{ $i }}
                                 </div>
+                            @endfor
+                        </div>
                                 
                                 <div class="seat-legend">
                                     <div class="legend-item">
@@ -140,22 +140,39 @@
                             <p class="price-label">Harga tiket per orang</p>
                             <p class="price-value">Rp {{ number_format($bus->price, 0, ',', '.') }}</p>
                         </div>
+                        <script>
+                            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+                                // Ensure we have selected seats
+                                if (selectedSeats.length === 0) {
+                                    alert('Silakan pilih kursi terlebih dahulu');
+                                    return false;
+                                }
+                                
+                                // Make sure the form method is POST
+                                this.setAttribute('method', 'POST');
+                                this.submit();
+                            });
+                        </script>
                         <form action="{{ route('booked') }}" method="POST" id="bookingForm">
                             @csrf
+                            <input type="hidden" name="bus_id" value="{{ $bus->id }}">
                             <input type="hidden" name="name" value="{{ $bus->name }}">
                             <input type="hidden" name="origin" value="{{ $bus->origin }}">
                             <input type="hidden" name="destination" value="{{ $bus->destination }}">
                             <input type="hidden" name="departure_time" value="{{ $bus->departure_time }}">
                             <input type="hidden" name="price" value="{{ $bus->price }}">
                             <input type="hidden" name="selected_seats" id="selectedSeats" value="">
+                            
                             <div class="selected-seats-info">
                                 <p>Kursi yang dipilih: <span id="selectedSeatsText">Belum ada</span></p>
                                 <p>Total: <span id="totalPrice">Rp 0</span></p>
                             </div>
+                            
                             <button type="submit" class="booking-button" id="bookBtn" disabled>
                                 Lanjutkan Pesanan
                             </button>
                         </form>
+
                     </div>
                 </div>
                 
@@ -543,6 +560,21 @@
                 bookBtn.disabled = true;
             }
         }
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            // Prevent default submission
+            e.preventDefault();
+            
+            // Ensure we have selected seats
+            if (selectedSeats.length === 0) {
+                alert('Silakan pilih kursi terlebih dahulu');
+                return false;
+            }
+            
+            // Submit the form with POST method
+            this.method = 'POST';
+            this.submit();
+        });
     });
     </script>
     @endsection

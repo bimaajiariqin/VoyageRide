@@ -21,8 +21,12 @@
             <strong>Keberangkatan:</strong> {{ \Carbon\Carbon::parse($departureTime)->format('d M Y, H:i') }}</p>
             </div>
 
+            <!-- Make sure method is set explicitly to POST -->
             <form action="{{ route('processBooking') }}" method="POST">
                 @csrf
+
+                <!-- Add hidden bus_id field -->
+                <input type="hidden" name="bus_id" value="{{ $busId }}">
 
                 @foreach ($selectedSeats as $index => $seat)
                     <div class="passenger-form">
@@ -60,7 +64,6 @@
 </div>
 
 <style>
-/* Main Layout Styles */
 /* Main Layout Styles */
 .main-content {
     padding: 20px;
