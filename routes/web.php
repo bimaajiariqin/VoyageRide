@@ -84,4 +84,18 @@ Route::get('/booking', function() {
 
 Route::post('/cancel-booking/{id}', [BookingController::class, 'cancelBooking']);
 
+// Retry payment for cancelled or pending bookings
+Route::get('/booking/{id}/retry-payment', [BookingController::class, 'retryPayment'])
+    ->name('booking.retry-payment')
+    ->middleware('auth');
 
+// Generate and download e-ticket
+Route::get('/booking/{id}/e-ticket', [BookingController::class, 'generateETicket'])
+    ->name('booking.e-ticket')
+    ->middleware('auth');
+
+// Booking history - This is probably already in your routes
+Route::get('/booking/history', [BookingController::class, 'bookingHistory'])
+    ->name('booking.history')
+    ->middleware('auth');
+    

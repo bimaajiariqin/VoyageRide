@@ -217,33 +217,107 @@ class BookingController extends Controller
     }
 
     public function bookingHistory()
-    {
-        $user = Auth::user();
-
-        $bookings = Booking::with('passengers')
-            ->where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('booking', compact('bookings'));
-    }
-
-    public function cancelBooking(Request $request, $id)
 {
-    $booking = Booking::findOrFail($id);
+    $user = Auth::user();
 
-    if ($booking->status !== 'cancelled') {
-        $booking->status = 'cancelled';
-        $booking->save();
+    // Ambil semua booking user
+    $bookings = Booking::with('passengers')
+        ->where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get();
 
-        // Bebaskan kursi
-        foreach ($booking->seats as $seat) {
-            $seat->is_booked = false;
-            $seat->save();
+    // Update status jika payment_deadline sudah lewat
+    foreach ($bookings as $booking) {
+        if ($booking->status === 'pending' && Carbon::now()->isAfter($booking->payment_deadline)) {
+            $booking->status = 'cancelled';
+            $booking->save();
         }
     }
 
-    return response()->json(['message' => 'Booking cancelled']);
+    return view('booking', compact('bookings'));
 }
+
+    public function cancelBooking(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        if ($booking->status !== 'cancelled') {
+            $booking->status = 'cancelled';
+            $booking->save();
+
+            // Bebaskan kursi
+            foreach ($booking->seats as $seat) {
+                $seat->is_booked = false;
+                $seat->save();
+            }
+        }
+
+        return response()->json(['message' => 'Booking cancelled']);
+    }
+
+    public function retryPayment($id)
+    {
+        $booking = Booking::with('passengers')->findOrFail($id);
+        
+        // Check if user owns this booking
+        if ($booking->user_id != Auth::id()) {
+            return redirect()->route('booking.history')->with('error', 'Anda tidak memiliki akses ke pemesanan ini');
+        }
+        
+        // Reset booking status to pending
+        if ($booking->status == 'cancelled') {
+            return redirect()->route('booking.history')->with('error', 'Pemesanan ini sudah dibatalkan dan tidak bisa dibayar lagi.');
+        }
+        
+        
+        // Set new payment deadline
+        $booking->payment_deadline = now()->addMinutes(10);
+        $booking->save();
+        
+        // Get passenger data for payment view
+        $passengers = [];
+        foreach ($booking->passengers as $passenger) {
+            $passengers[] = [
+                'name' => $passenger->name,
+                'seat' => $passenger->seat_number,
+                'NIK' => $passenger->nik
+            ];
+        }
+        
+        // Set deadline for view
+        $deadline = Carbon::now()->addMinutes(10);
+        
+        // Return payment view with necessary data
+        return view('payment', [
+            'booking' => $booking,
+            'booking_id' => $booking->id,
+            'passengers' => $passengers,
+            'totalPrice' => $booking->total_price,
+            'deadline' => $deadline
+        ]);
+    }
+    
+    /**
+     * Generate and display e-ticket for confirmed bookings
+     */
+    public function generateETicket($id)
+    {
+        $booking = Booking::with(['passengers', 'bus', 'payment'])->findOrFail($id);
+        
+        // Check if user owns this booking
+        if ($booking->user_id != Auth::id()) {
+            return redirect()->route('booking.history')->with('error', 'Anda tidak memiliki akses ke pemesanan ini');
+        }
+        
+        // Check if booking is confirmed (paid)
+        if ($booking->status != 'confirmed') {
+            return redirect()->route('booking.history')
+                ->with('error', 'E-Ticket hanya tersedia untuk pemesanan yang sudah dikonfirmasi');
+        }
+        
+        return view('e_ticket', [
+            'booking' => $booking
+        ]);
+    }
 
 }

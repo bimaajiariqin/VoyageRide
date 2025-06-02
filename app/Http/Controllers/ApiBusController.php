@@ -88,7 +88,47 @@ class ApiBusController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+    $request->validate([
+        'name' => '',
+        'bus_type' => '',
+        'seat_capacity' => '|integer',
+        'bus_number' => '',
+        'model' => '',
+        'origin_id' => '|exists:cities,id',
+        'destination_id' => '|exists:cities,id',
+        'departure_time' => '|date',
+        'arrival_time' => '|date',
+        'price' => '|numeric',
+    ]);
+
+    $bus = Bus::findOrFail($id);
+
+    $bus->update([
+        'name' => $request->name,
+        'bus_type' => $request->bus_type,
+        'seat_capacity' => $request->seat_capacity,
+        'bus_number' => $request->bus_number,
+        'model' => $request->model,
+        'logo_url' => $request->logo_url,
+        'origin_id' => $request->origin_id,
+        'destination_id' => $request->destination_id,
+        'departure_time' => $request->departure_time,
+        'arrival_time' => $request->arrival_time,
+        'price' => $request->price,
+        'has_luggage' => $request->has('has_luggage'),
+        'has_light' => $request->has('has_light'),
+        'has_ac' => $request->has('has_ac'),
+        'has_drink' => $request->has('has_drink'),
+        'has_wifi' => $request->has('has_wifi'),
+        'has_usb' => $request->has('has_usb'),
+        'has_cctv' => $request->has('has_cctv'),
+    ]);
+
+    return response()->json([
+        'message' => 'Successfully',
+        'data' => $bus
+    ]);
+
     }
 
     /**
@@ -99,6 +139,8 @@ class ApiBusController extends Controller
         $bus = Bus::findOrFail($id);
             $bus->delete();
 
-            return redirect()->back()->with('success', 'Bus berhasil dihapus.');
+            return response()->json([
+                'message' => 'success'
+            ], 200);
     }
 }
