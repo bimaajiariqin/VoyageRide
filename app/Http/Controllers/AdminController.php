@@ -21,21 +21,25 @@ class AdminController extends Controller
 
     // Menyimpan Admin baru
     public function storeAdmin(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|min:6'
-        ]);
-        
+{
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users,nama', // Validasi agar unik di kolom nama
+        'email' => 'required|email|unique:users|max:255',
+        'password' => 'required|min:6'
+    ]);
 
-        User::create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'Admin' // Pastikan role selalu Admin
-        ]);
+    // Gabungkan nama dan username
+    $nama = $request->nama . ' | ' . $request->username;
 
-        return redirect()->route('/admin/landingadmin')->with('success', 'Admin baru berhasil ditambahkan.');
-    }
+    User::create([
+        'nama' => $nama,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'Admin'
+    ]);
+
+    return redirect()->route('/admin/landingadmin')->with('success', 'Admin baru berhasil ditambahkan.');
+}
+
 }

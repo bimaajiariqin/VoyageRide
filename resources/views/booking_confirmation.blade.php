@@ -9,8 +9,8 @@
 
     <div class="details-box">
       <h4>Detail Pemesanan</h4>
-      <p><strong>Nama Pemesan:</strong> {{ $booking->name ?? '-' }}</p>
-      <p><strong>Kode Pemesanan:</strong> {{ $booking->id }}</p>
+      <p><strong>Nama Pemesan:</strong> {{ $booking->user_id ?? '-' }}</p>
+      <p><strong>Kode Pemesanan:</strong> {{ $booking->booking_number }}</p>
       <p><strong>Status:</strong> <span class="badge bg-success">Terkonfirmasi</span></p>
 
       <hr>
@@ -23,8 +23,6 @@
             {{ $payment->payment_date ? \Carbon\Carbon::parse($payment->payment_date)->format('d M Y, H:i') : '-' }}
         </p>
     </div>
-
-    <a href="{{ route('landing') }}" class="btn btn-primary mt-4">Kembali ke Beranda</a>
   </div>
 </div>
 

@@ -56,29 +56,38 @@
         'price' => 'required|numeric',
     ]);
 
-    $bus = Bus::create([
-        'name' => $request->name,
-        'bus_type' => $request->bus_type,
-        'seat_capacity' => $request->seat_capacity,
-        'bus_number' => $request->bus_number,
-        'model' => $request->model,
-        'logo_url' => $request->logo_url,
-        'origin_id' => $request->origin_id,
-        'destination_id' => $request->destination_id,
-        'departure_time' => $request->departure_time,
-        'arrival_time' => $request->arrival_time,
-        'price' => $request->price,
-        'has_luggage' => $request->has('has_luggage'),
-        'has_light' => $request->has('has_light'),
-        'has_ac' => $request->has('has_ac'),
-        'has_drink' => $request->has('has_drink'),
-        'has_wifi' => $request->has('has_wifi'),
-        'has_usb' => $request->has('has_usb'),
-        'has_cctv' => $request->has('has_cctv'),
-    ]);
+    // Ambil waktu dari input
+    $departureTime = Carbon::parse($request->departure_time);
+    $arrivalTime = Carbon::parse($request->arrival_time);
 
-    return redirect()->back()->with('success', 'Bus berhasil ditambahkan!');
+    // Tambahkan entri selama 30 hari
+    for ($i = 0; $i < 10; $i++)
+     {
+        Bus::create([
+            'name' => $request->name,
+            'bus_type' => $request->bus_type,
+            'seat_capacity' => $request->seat_capacity,
+            'bus_number' => $request->bus_number,
+            'model' => $request->model,
+            'logo_url' => $request->logo_url,
+            'origin_id' => $request->origin_id,
+            'destination_id' => $request->destination_id,
+            'departure_time' => $departureTime->copy()->addDays($i),
+            'arrival_time' => $arrivalTime->copy()->addDays($i),
+            'price' => $request->price,
+            'has_luggage' => $request->has('has_luggage'),
+            'has_light' => $request->has('has_light'),
+            'has_ac' => $request->has('has_ac'),
+            'has_drink' => $request->has('has_drink'),
+            'has_wifi' => $request->has('has_wifi'),
+            'has_usb' => $request->has('has_usb'),
+            'has_cctv' => $request->has('has_cctv'),
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'Bus berhasil ditambahkan selama 10 hari ke depan!');
 }
+
 
 
         

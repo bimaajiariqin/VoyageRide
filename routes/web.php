@@ -62,7 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/process-booking', [BookingController::class, 'handleDirectAccess'])->name('processBooking.direct');
     
     // Step 3: Process payment
-    Route::post('/payment/process', [BookingController::class, 'processPayment'])->name('payment.process');
+    Route::post('/booking/history', [BookingController::class, 'processPayment'])->name('payment.process');
     
     // Booking history and management
     Route::get('/booking/history', [BookingController::class, 'bookingHistory'])->name('booking.history');

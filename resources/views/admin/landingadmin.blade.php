@@ -90,7 +90,7 @@ body {
         </li>
         <li>
             @if(Auth::user()->role === 'Admin')
-                <a href="{{ route('/admin/bus-table') }}">Tabel Bus</a>
+                <a href="{{ route('/admin/bus.add') }}">Tambah Bus</a>
             @endif
         </li>
         <li>

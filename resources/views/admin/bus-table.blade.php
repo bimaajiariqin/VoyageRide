@@ -191,9 +191,6 @@
     </div>
 
 <div class="button-container">
-    @if(Auth::user()->role === 'AdminUtama' || Auth::user()->role === 'Admin')
-        <a href="{{ route('/admin/bus.add') }}" class="add-bus-btn">Tambah Bus</a>
-    @endif
     <a href="{{ route('/admin/landingadmin') }}" class="back-link">Kembali</a>
 </div>
 
